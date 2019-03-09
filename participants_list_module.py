@@ -69,17 +69,16 @@ class Participants():
     #           generate an exception if not.
     #
     @staticmethod
-    def is_valid_name(the_participants) :
-        for name in the_participants:
-            if len(name) < Participants.MINIMUM_NAME_LENGTH \
-                or len(name) > Participants.MAXIMUM_NAME_LENGTH :
-                raise ValueError(("Participant's name: {}, is not valid. It should be: " +
+    def is_valid_name(name) :
+        if len(name) < Participants.MINIMUM_NAME_LENGTH \
+            or len(name) > Participants.MAXIMUM_NAME_LENGTH :
+            raise ValueError(("Participant's name: {}, is not valid. It should be: " +
                              "more than {} characters long " +
                              "and less than {} characters long.")
                     .format(name, Participants.MINIMUM_NAME_LENGTH, Participants.MAXIMUM_NAME_LENGTH))
-            for letter in name:
-                if letter.isdigit() == True:
-                    raise ValueError("Participant's name: {},is not valid.<Reason: digit contained>".format(name))
+        for letter in name:
+            if letter.isdigit() == True:
+                raise ValueError("Participant's name: {},is not valid.<Reason: digit contained>".format(name))
         return True
 
     ## Check the number of participants in the set is the right length.
@@ -129,7 +128,7 @@ def main():
        
     print("\nTest 4: Create a set of participants which is too long")    
     try:
-        names = set(["personA","personB","personC", "personD", "personE","personF","personG"])
+        names = set(["personA","personB","personC", "personD", "personE", "dgsdfg","sdfsdf"])
         p = Participants(names)
         print("\tVALID: ", p)
     except Exception as err:
@@ -137,7 +136,7 @@ def main():
     
     print("\nTest 5: Create a set of participants with invalid name, punctuation character")    
     try:
-        names = set(["*","personB","personC"])
+        names = set(["personA","p","personC"])
         p = Participants(names)
         print("\tVALID: ", p)
     except Exception as err:
@@ -145,7 +144,7 @@ def main():
 
     print("\nTest 6: Create a set of participants with name too long")    
     try:
-        names = set(["tooooooooooooooooolonggggggggggg","personB","personC"])
+        names = set(["toooooooooooooooooooooooooooooooooooooooooo","personB","personC"])
         p = Participants(names)
         print("\tVALID: ", p)
     except Exception as err:
