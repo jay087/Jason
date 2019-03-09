@@ -337,10 +337,21 @@ def log_chores(all_households):
 # @param all_households, a list of household objects
 #
 def show_leaderboard(all_households):
-    print("Not implemented yet.")
-
+   
+    print(all_households)
+    if len(all_households) == 0:
+        print("\nThere are currently no household account stored.\n")
+    else:
+        print("Leaderboard")
+        log_household = input("\nEnter Household name: ")
+        for household_num in range(len(all_households)):
+            if log_household == all_households[household_num].household_name:
+                print("\n" + log_household )
+                print("\nChore Leaderboard:")
+                return
+        print("\nThe household cannot be found!!\n")
+        
     return 
-
 
     
 ##  Prints the menu, prompts the user for an option and validates the option.
