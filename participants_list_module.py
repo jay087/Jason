@@ -56,7 +56,7 @@ class Participants():
                 
         try :
             Participants.is_valid_length(the_participants)
-            ChoresList.is_valid_name(the_participants)
+            Participants.is_valid_name(the_participants)
         except ValueError as err :
             raise
         
