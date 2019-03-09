@@ -300,10 +300,12 @@ def view_household():
             if household_viewing == all_households[household_num].household_name:
                 print("\n" + household_viewing )
                 print("\nParticipants:")
-                for participants_viewing_num in range(len(all_households)):
-                    print("\t{}. {}".format((participants_viewing_num + 1),all_households[participants_viewing_num].participants.participants))
-                    print("\nWeekly Chores: ")
-                    return
+                for eachParticipant in all_households[household_num].participants.participants:
+                    print(eachParticipant)
+                print("\nWeekly Chores: ")
+                for eachchore in all_households[household_num].chores.chores:
+                    print(eachchore)
+                return
         print("\nThe household cannot be found!!\n")
 
     return    
@@ -323,8 +325,9 @@ def log_chores(all_households):
             if log_household == all_households[household_num].household_name:
                 print("\n" + log_household )
                 print("\nParticipants:")
-                for participants_viewing_num in range(len(all_households)):
-                    print("\t{}. {}".format((participants_viewing_num + 1),all_households[participants_viewing_num]))
+                for participants_viewing_num in range(len(all_households)).participants:
+                    print("\t{}. {}".format((participants_viewing_num + 1),
+                        all_households[household_num].participants[participants_viewing_num].participants))
                 log_participant = input("\nEnter participant number: ")
                 return
         print("\nThe household cannot be found!!\n")
