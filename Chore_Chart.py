@@ -291,6 +291,7 @@ def is_blank(any_string):
 # @param all_households, a list of household objects
 #
 def view_household():
+    
     print(all_households)
     if len(all_households) == 0:
         print("\nThere are currently no household account stored.\n")
@@ -306,7 +307,6 @@ def view_household():
                     return
         print("\nThe household cannot be found!!\n")
 
-    
     return    
 
 
@@ -315,8 +315,21 @@ def view_household():
 #
 def log_chores(all_households):
     
-    print("Not implemented yet.")
-        
+    print(all_households)
+    if len(all_households) == 0:
+        print("\nThere are currently no household account stored.\n")
+    else:
+        log_household = input("\nEnter Household name: ")
+        for household_num in range(len(all_households)):
+            if log_household == all_households[household_num].household_name:
+                print("\n" + log_household )
+                print("\nParticipants:")
+                for participants_viewing_num in range(len(all_households)):
+                    print("\t{}. {}".format((participants_viewing_num + 1),all_households[participants_viewing_num]))
+                log_participant = input("\nEnter participant number: ")
+                return
+        print("\nThe household cannot be found!!\n")
+
     return    
 
 
