@@ -54,7 +54,7 @@ class Participants():
             raise TypeError("List of Participants is not a set.")
                 
         try :
-            for name in the_participants
+            for name in the_participants:
                 Participants.is_valid_name(name)
             Participants.is_valid_length(the_participants)
         except ValueError as err :
