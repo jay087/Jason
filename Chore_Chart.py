@@ -291,7 +291,6 @@ def is_blank(any_string):
 # @param all_households, a list of household objects
 #
 def view_household():
-    
     print(all_households)
     if len(all_households) == 0:
         print("\nThere are currently no household account stored.\n")
@@ -302,7 +301,7 @@ def view_household():
                 print("\n" + household_viewing )
                 print("\nParticipants:")
                 for participants_viewing_num in range(len(all_households)):
-                    print("\t{}. {}".format((participants_viewing_num + 1),all_households[participants_viewing_num]))
+                    print("\t{}. {}".format((participants_viewing_num + 1),all_households[participants_viewing_num].participants.participants))
                     print("\nWeekly Chores: ")
                     return
         print("\nThe household cannot be found!!\n")
@@ -329,7 +328,7 @@ def log_chores(all_households):
                 log_participant = input("\nEnter participant number: ")
                 return
         print("\nThe household cannot be found!!\n")
-
+        
     return    
 
 
@@ -352,6 +351,7 @@ def show_leaderboard(all_households):
         print("\nThe household cannot be found!!\n")
         
     return 
+
 
     
 ##  Prints the menu, prompts the user for an option and validates the option.
