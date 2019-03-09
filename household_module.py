@@ -34,7 +34,7 @@ class Household() :
     #          
     @property
     def household_name(self):
-        return str(self._household_name)
+        return self._household_name
 
 
     ## Sets the household name attribute.
@@ -89,12 +89,14 @@ class Household() :
     #  @param the_chore_log an empty dictionary       
     @chore_log.setter
     def chore_log(self, the_chore_log) :
-        self._chore_log = Household.initialise_log(self.participants.participants,
+        self._chore_log = Household.initialise_log(self.participants.participants, \
                                                   self.chores.chores)
 
 
     def __str__(self):
-        return "TO BE COMPLETED"
+        return "Household name: {}".format(self.household_name) +
+               "Participants: {}".format(self.participants) +
+               "Chores: {}".format(self.chores)
     
 
     ## Generate a string representation of the chore log.
@@ -126,8 +128,16 @@ class Household() :
     #
     @staticmethod
     def is_valid_name(name) :
+        if len(name) < Household.MINIMUM_NAME_LENGTH \
+            or len(name) > Household.MAXIMUM_NAME_LENGTH :
+            raise ValueError(("Household's name: {}, is not valid. It should be: " +
+                             "more than {} characters long " +
+                             "and less than {} characters long.")
+                    .format(name, Household.MINIMUM_NAME_LENGTH - 1, Household.MAXIMUM_NAME_LENGTH + 1))
+        for letter in name:
+            if letter.isdigit() == True:
+                raise ValueError("Household's name: {},is not valid.<Reason: digit contained>".format(name))
         return True
-
 
     @staticmethod
     def initialise_log(the_participants, the_chores) :
@@ -206,5 +216,4 @@ def main():
 if __name__ == "__main__":
     main()
     
-
 
