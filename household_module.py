@@ -94,9 +94,7 @@ class Household() :
 
 
     def __str__(self):
-        return "Household name: {}".format(self.household_name) +
-               "Participants: {}".format(self.participants) +
-               "Chores: {}".format(self.chores)
+        return "IF YOU SEE THIS - HOUSEHOLD CLASS"
     
 
     ## Generate a string representation of the chore log.
