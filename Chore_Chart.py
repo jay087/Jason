@@ -301,10 +301,10 @@ def view_household():
                 print("\n" + household_viewing )
                 print("\nParticipants:")
                 for eachParticipant in all_households[household_num].participants.participants:
-                    print(eachParticipant)
+                    print("1. " + eachParticipant)
                 print("\nWeekly Chores: ")
                 for eachchore in all_households[household_num].chores.chores:
-                    print(eachchore)
+                    print("1. " + eachchore)
                 return
         print("\nThe household cannot be found!!\n")
 
@@ -397,8 +397,4 @@ def main() :
 # Start the program
 if __name__ == "__main__":
     main()
-
-
-
-
 
