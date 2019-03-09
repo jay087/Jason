@@ -114,7 +114,7 @@ def main():
 
     print("\nTest 2: Create a set of participants with the wrong data type: list")    
     try:
-        names = set(["personA","personB","personC"])
+        names = ["personA","personB","personC"]
         p2 = Participants(names)
         print("\tVALID: ", p2)
     except Exception as err:
@@ -122,7 +122,7 @@ def main():
 
     print("\nTest 3: Create a set of participants which is too short")    
     try:
-        names = set(["personA","personB","personC"])
+        names = set(["personA"])
         p2 = Participants(names)
         print("\tVALID: ", p2)
     except Exception as err:
@@ -130,7 +130,7 @@ def main():
        
     print("\nTest 4: Create a set of participants which is too long")    
     try:
-        names = set(["personA","personB","personC", "personD", "personE"])
+        names = set(["personA","personB","personC", "personD", "personE","personF","personG"])
         p = Participants(names)
         print("\tVALID: ", p)
     except Exception as err:
@@ -138,7 +138,7 @@ def main():
     
     print("\nTest 5: Create a set of participants with invalid name, punctuation character")    
     try:
-        names = set(["person","personB","personC"])
+        names = set(["*","personB","personC"])
         p = Participants(names)
         print("\tVALID: ", p)
     except Exception as err:
@@ -146,7 +146,7 @@ def main():
 
     print("\nTest 6: Create a set of participants with name too long")    
     try:
-        names = set(["toooo","personB","personC"])
+        names = set(["tooooooooooooooooolonggggggggggg","personB","personC"])
         p = Participants(names)
         print("\tVALID: ", p)
     except Exception as err:
