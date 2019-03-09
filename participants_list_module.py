@@ -49,7 +49,17 @@ class Participants():
     #         and raise exception if it does not.
     #
     @staticmethod
-    def valid_participants(the_participants) :
+    def  valid_participants(the_participants) :
+        # check that the_participants is a set
+        if not isinstance(the_participants, set) :
+            raise TypeError("List of Participants is not a set.")
+                
+        try :
+            Participants.is_valid_length(the_participants)
+            ChoresList.is_valid_name(the_participants)
+        except ValueError as err :
+            raise
+        
         return True
 
 
@@ -60,8 +70,17 @@ class Participants():
     #           generate an exception if not.
     #
     @staticmethod
-    def is_valid_name(name) :
- 
+    def is_valid_name(the_participants) :
+        for name in the_participants:
+            if len(name) < Participants.MINIMUM_NAME_LENGTH \
+                or len(name) > Participants.MAXIMUM_NAME_LENGTH :
+                raise ValueError(("Participant's name: {}, is not valid. It should be: " +
+                             "more than {} characters long " +
+                             "and less than {} characters long.")
+                    .format(name, Participants.MINIMUM_NAME_LENGTH, Participants.MAXIMUM_NAME_LENGTH))
+            for letter in name:
+                if letter.isdigit() == True:
+                    raise ValueError("Participant's name: {},is not valid.<Reason: digit contained>".format(name))
         return True
 
     ## Check the number of participants in the set is the right length.
@@ -70,7 +89,11 @@ class Participants():
     #           
     @staticmethod        
     def is_valid_length(the_participants) :    
- 
+        if len(the_participants) < Participants.MINIMUM_HOUSEHOLD_SIZE or \
+            len(the_participants) > Participants.MAXIMUM_HOUSEHOLD_SIZE :
+            raise ValueError(("\n\t\tThe number of participants" + 
+               " must be more than {} and less than {}.")
+               .format(Participants.MINIMUM_HOUSEHOLD_SIZE - 1, Participants.MAXIMUM_HOUSEHOLD_SIZE + 1))
         # If we reached this point then the checks passed
         return True
 
