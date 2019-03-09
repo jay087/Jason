@@ -36,7 +36,7 @@ class Participants():
 
 
     def __str__(self):
-        participants_string = "NOT COMPLETE"
+        participants_string = "Participants"
         return participants_string
 
 
