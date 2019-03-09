@@ -36,8 +36,7 @@ class Participants():
 
 
     def __str__(self):
-        participants_string = "IF YOU SEE THIS - PARTICIPANTS CLASS"
-        return participants_string
+        return self.participants
 
 
     ## Check the set of participants.
