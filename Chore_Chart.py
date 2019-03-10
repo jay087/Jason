@@ -300,11 +300,15 @@ def view_household():
             if household_viewing == all_households[household_num].household_name:
                 print("\n" + household_viewing )
                 print("\nParticipants:")
+                i = 1
                 for eachParticipant in all_households[household_num].participants.participants:
-                    print("1. " + eachParticipant)
+                    print("\t{}. {}".format(i, eachParticipant))
+                    i += 1
                 print("\nWeekly Chores: ")
+                j = 1
                 for eachchore in all_households[household_num].chores.chores:
-                    print("1. " + eachchore)
+                    print("\t{}. {}".format(j, eachchore))
+                    j += 1
                 return
         print("\nThe household cannot be found!!\n")
 
