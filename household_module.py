@@ -89,19 +89,28 @@ class Household() :
     #  @param the_chore_log an empty dictionary       
     @chore_log.setter
     def chore_log(self, the_chore_log) :
-        self._chore_log = Household.initialise_log(self.participants.participants, \
-                                                  self.chores.chores)
-
+        if len(the_chore_log) == 0:
+            self._chore_log = Household.initialise_log(self.participants.participants, \
+                                                       self.chores.chores)
+        
+        else:
+            self._chore_log = the_chore_log
 
     def __str__(self):
-        return "IF YOU SEE THIS - HOUSEHOLD CLASS"
+        return self.chore_log_string()
     
 
     ## Generate a string representation of the chore log.
     #
     #  @return a string containting the information in the chore log
-    def chore_log_string(self) :
-        chore_log_string = "TO BE COMPLETED"
+    def chore_log_string(self):
+        chore_log_string = '\nChore Leaderboard:'
+        for participant in self.chore_log:
+            chore_log_string += '\n\n{}:'.format(participant)
+            for chore in self.chore_log[participant]:
+                chore_log_string += '\n\t{}   ({})'.format(chore.chore_name,
+                                                         self.chore_log[participant][chore])
+
             
         return chore_log_string
 
@@ -116,7 +125,9 @@ class Household() :
     # {"fred" : {"chore1": 0, "chore2": 0}, walt : {"chore1": 0, "chore2": 0}}
     #
     def update_log(self, name, chore, number_completed ) :
-        return
+        self.chore_log[name][chore] += number_completed
+        
+        return 
         
     ## Check the name contains only characters from the alphabet and check that it is the right length.
     # 
@@ -149,6 +160,11 @@ class Household() :
         # {"fred" : {"chore1": 0, "chore2": 0}, walt : {"chore1": 0, "chore2": 0}}
         
         household_log = {}
+        for participant in the_participants:
+            chores = {}
+            for chore in the_chores:
+                chores[chore] = 0
+            household_log[participant] = chores
 
         return household_log
             
