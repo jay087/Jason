@@ -16,20 +16,17 @@ from participants_list_module import Participants
 
 MENU_CHOICES = ['A', 'C', 'V', 'L', 'S', 'Q']
 
-# Main lists that contain household names, participant names, chores, and chore frequencies
-information_list = []
-all_households = []
 
 ## Prints the menu for the application. 
 #
 def print_menu():
     menu_string = ("\n\nWelcome to Chore Chart:\n\n"
-                 "\tAbout \t\t\t(A)\n"
+                 "\tAbout \t\t\t\t(A)\n"
                  "\tCreate Household \t(C)\n"
                  "\tView Household \t\t(V)\n"
                  "\tLog Chores Done \t(L)\n"
                  "\tShow Leaderboard \t(S) \n"
-                 "\tQuit \t\t\t(Q)")
+                 "\tQuit \t\t\t\t(Q)")
     print(menu_string)
 
 
@@ -49,8 +46,9 @@ def about() :
 #   @param all_households a list of household objects
 #
 #
-def create_household(all_households) :
-    print(all_households)
+all_households = []
+
+def create_household() :
     new_household_name = get_household_name()
     found = False
     household_obj = household_exists(new_household_name, all_households)
@@ -61,12 +59,117 @@ def create_household(all_households) :
         chores_set = get_chores()
         household_obj = Household(new_household_name, members_set, chores_set)
         all_households.append(household_obj)
-        print(all_households)
     else:
         print("Household {} already exists, returning to the menu."
               .format(new_household_name))
         
+    return
+
+##  View household.
+# @param all_households, a list of household objects
+#
+def view_household():
+    if len(all_households) == 0:
+        print("\nThere are currently no household account stored.\n")
+    else:
+        household_viewing = input("\nEnter Household name: ")
+        for household_num in range(len(all_households)):
+            if household_viewing == all_households[household_num].household_name:
+                print("\n" + household_viewing )
+                print("\nParticipants:")
+                i = 1
+                for eachParticipant in all_households[household_num].participants.participants:
+                    print("\t{}. {}".format(i, eachParticipant))
+                    i += 1
+                print("\nWeekly Chores: ")
+                j = 1
+                for eachchore in all_households[household_num].chores.chores:
+                    print("\t{}. {}".format(j, eachchore))
+                    j += 1
+                return
+        print("\nThe household cannot be found!!\n")
+
+    return    
+
+
+##  Log chores.
+# @param all_households, a list of household objects
+#
+def log_chores():
+    print('\nLog Chores')
+    if len(all_households) == 0:
+        print("\nThere are currently no household account stored.\n")
+    else:
+        log_household = input("\nEnter Household name: ")
+        for household_num in range(len(all_households)):
+            if log_household == all_households[household_num].household_name:
+                participants_list = list(all_households[household_num].participants.participants)
+                chores_list = list(all_households[household_num].chores.chores)
+                
+                print_participants(participants_list)
+                chosen_par = choose_participant(participants_list)
+                
+                print_chores(chores_list)
+                chosen_cho = choose_chore(chores_list)
+                print(chosen_cho)
+                
+                print("\n{} has done '{}' {} times".format(chosen_par,
+                                                         chosen_cho.chore_name,
+                                                         all_households[household_num].chore_log[chosen_par][chosen_cho]))
+               
+                add_up = int(input("How many more times has {} done '{}': ".format(chosen_par,
+                                                         chosen_cho.chore_name)))
+                all_households[household_num].update_log(chosen_par,
+                                                      chosen_cho,
+                                                      add_up)
+                
+                print("\n{} has done '{}' {} times".format(chosen_par,
+                                                           chosen_cho.chore_name,
+                                                           all_households[household_num].chore_log[chosen_par][chosen_cho]))
+                return
+        print("\nThe household cannot be found!!\n")
+        
+    return
+
+def print_participants(par_ls):
+    print("\nParticipants:")
+    for viewing_num in range(len(par_ls)):
+        print("\t{}: {}".format((viewing_num + 1),par_ls[viewing_num]))
+        
+def choose_participant(par_ls):
+    log_participant = int(input("\nEnter participant number: "))
+    print("\nYou are logging {}'s chores".format(par_ls[(log_participant-1)]))
+    return par_ls[(log_participant-1)]
+
+def print_chores(cho_ls):
+    print("\nChores: ")
+    for chores_viewing_num in range(len(cho_ls)):
+        print("\t{}: {}".format((chores_viewing_num + 1),cho_ls[chores_viewing_num].chore_name))
+        
+def choose_chore(cho_ls):
+    log_chore = int(input("\nEnter chore number: "))
+    return cho_ls[(log_chore-1)]
+    
+    
+
+
+##  Show the leaderboard for a house.
+# @param all_households, a list of household objects
+#
+def show_leaderboard():
+    if len(all_households) == 0:
+        print("\nThere are currently no household account stored.\n")
+    else:
+        print("\nLeaderboard")
+        log_household = input("\nEnter Household name: ")
+        for household_num in range(len(all_households)):
+            if log_household == all_households[household_num].household_name:
+                print(str(all_households[household_num]))
+                return
+        print("\nThe household cannot be found!!\n")
+        
     return 
+
 
 ##  Checks whether a household with a given name exists in the list of households.
 #
@@ -286,80 +389,6 @@ def is_blank(any_string):
     else :
         return False
 
-
-##  View household.
-# @param all_households, a list of household objects
-#
-def view_household():
-    print(all_households)
-    if len(all_households) == 0:
-        print("\nThere are currently no household account stored.\n")
-    else:
-        household_viewing = input("\nEnter Household name: ")
-        for household_num in range(len(all_households)):
-            if household_viewing == all_households[household_num].household_name:
-                print("\n" + household_viewing )
-                print("\nParticipants:")
-                i = 1
-                for eachParticipant in all_households[household_num].participants.participants:
-                    print("\t{}. {}".format(i, eachParticipant))
-                    i += 1
-                print("\nWeekly Chores: ")
-                j = 1
-                for eachchore in all_households[household_num].chores.chores:
-                    print("\t{}. {}".format(j, eachchore))
-                    j += 1
-                return
-        print("\nThe household cannot be found!!\n")
-
-    return    
-
-
-##  Log chores.
-# @param all_households, a list of household objects
-#
-def log_chores(all_households):
-    
-    print(all_households)
-    if len(all_households) == 0:
-        print("\nThere are currently no household account stored.\n")
-    else:
-        log_household = input("\nEnter Household name: ")
-        for household_num in range(len(all_households)):
-            if log_household == all_households[household_num].household_name:
-                print("\n" + log_household )
-                print("\nParticipants:")
-                for participants_viewing_num in range(len(all_households)).participants:
-                    print("\t{}. {}".format((participants_viewing_num + 1),
-                        all_households[household_num].participants[participants_viewing_num].participants))
-                log_participant = input("\nEnter participant number: ")
-                return
-        print("\nThe household cannot be found!!\n")
-        
-    return    
-
-
-##  Show the leaderboard for a house.
-# @param all_households, a list of household objects
-#
-def show_leaderboard(all_households):
-   
-    print(all_households)
-    if len(all_households) == 0:
-        print("\nThere are currently no household account stored.\n")
-    else:
-        print("Leaderboard")
-        log_household = input("\nEnter Household name: ")
-        for household_num in range(len(all_households)):
-            if log_household == all_households[household_num].household_name:
-                print("\n" + log_household )
-                print("\nChore Leaderboard:")
-                return
-        print("\nThe household cannot be found!!\n")
-        
-    return 
-
-
     
 ##  Prints the menu, prompts the user for an option and validates the option.
 #
@@ -375,6 +404,7 @@ def get_option():
     return option.upper()
 
 
+
 ## The menu is displayed until the user quits
 # 
 def main() :
@@ -386,13 +416,13 @@ def main() :
         if option == 'A':
             about()
         elif option == 'C':
-            create_household(all_households)
+            create_household()
         elif option == 'V':
             view_household()
         elif option == 'L':
-            log_chores(all_households)
+            log_chores()
         elif option == 'S':
-            show_leaderboard(all_households)
+            show_leaderboard()
             # print("\n\tNot implemented yet.\n")
 
     print("\n\nBye, bye.")
