@@ -76,7 +76,7 @@ class Participants():
             raise ValueError(("Participant's name: {}, is not valid. It should be: " +
                              "more than {} characters long " +
                              "and less than {} characters long.")
-                    .format(name, Participants.MINIMUM_NAME_LENGTH, Participants.MAXIMUM_NAME_LENGTH))
+                    .format(name, Participants.MINIMUM_NAME_LENGTH - 1, Participants.MAXIMUM_NAME_LENGTH + 1))
         for letter in name:
             if letter.isdigit() == True:
                 raise ValueError("Participant's name: {},is not valid.<Reason: digit contained>".format(name))
