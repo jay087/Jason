@@ -177,7 +177,7 @@ class Chore():
 
 
     def __str__(self):          
-        return self.chore_name +  " (" + str(self.frequency) + ")"
+        return self.chore_name + " (" + str(self.frequency) + ")"
 
 
     ## Check the name contains only alphanumeric characters and check that it is the right length.
@@ -201,7 +201,7 @@ class Chore():
 
         for word in name_list :
             if not word.isalnum():
-               raise ValueError(("{}, is not valid. All words in the chore name should be " +
+                raise ValueError(("{}, is not valid. All words in the chore name should be " +
                                  "alphanumeric.").format(word)) 
             
 
@@ -228,7 +228,7 @@ class Chore():
 
 
 
-
+ 
 def main() :
 
     print("Test 1: Create a valid chore list")    
@@ -238,7 +238,7 @@ def main() :
         c3 = Chore("dusting", 1)
         c4 = Chore("empty bin", 2)
         cl1 = ChoresList(set([c1, c2, c3, c4]))
-        print("\n\tVALID: ", cl1)
+        print("\n\tVALID: ",cl1)
     except (ValueError, TypeError) as err:
         print("\tERROR: ", err)
 
