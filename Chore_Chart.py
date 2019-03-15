@@ -21,12 +21,12 @@ MENU_CHOICES = ['A', 'C', 'V', 'L', 'S', 'Q']
 #
 def print_menu():
     menu_string = ("\n\nWelcome to Chore Chart:\n\n"
-                 "\tAbout \t\t\t\t(A)\n"
+                 "\tAbout \t\t\t(A)\n"
                  "\tCreate Household \t(C)\n"
                  "\tView Household \t\t(V)\n"
                  "\tLog Chores Done \t(L)\n"
                  "\tShow Leaderboard \t(S) \n"
-                 "\tQuit \t\t\t\t(Q)")
+                 "\tQuit \t\t\t(Q)")
     print(menu_string)
 
 
@@ -137,9 +137,16 @@ def print_participants(par_ls):
         print("\t{}: {}".format((viewing_num + 1),par_ls[viewing_num]))
         
 def choose_participant(par_ls):
-    log_participant = int(input("\nEnter participant number: "))
-    print("\nYou are logging {}'s chores".format(par_ls[(log_participant-1)]))
-    return par_ls[(log_participant-1)]
+    is_valid = None
+    try:
+        log_participant = int(input("\nEnter participant number: "))
+        is_valid = par_ls[(log_participant-1)]
+        print("\nYou are logging {}'s chores".format(par_ls[(log_participant-1)]))
+        return is_valid
+    except:
+        is_valid  = choose_participant(par_ls)
+        return is_valid
+    
 
 def print_chores(cho_ls):
     print("\nChores: ")
@@ -147,8 +154,19 @@ def print_chores(cho_ls):
         print("\t{}: {}".format((chores_viewing_num + 1),cho_ls[chores_viewing_num].chore_name))
         
 def choose_chore(cho_ls):
-    log_chore = int(input("\nEnter chore number: "))
-    return cho_ls[(log_chore-1)]
+    is_valid = None
+    try:
+        log_chore = int(input("\nEnter chore number: "))
+        is_valid = cho_ls[(log_chore-1)]
+        return is_valid
+    
+    except ValueError:
+        is_valid  = choose_chore(cho_ls)
+        return is_valid
+    except:
+        is_valid  = choose_chore(cho_ls)
+        return is_valid
+    
     
     
 
@@ -431,4 +449,5 @@ def main() :
 # Start the program
 if __name__ == "__main__":
     main()
+
 
