@@ -144,6 +144,7 @@ def choose_participant(par_ls):
         print("\nYou are logging {}'s chores".format(par_ls[(log_participant-1)]))
         return is_valid
     except:
+        print("Invalid command, please try again")
         is_valid  = choose_participant(par_ls)
         return is_valid
     
@@ -161,9 +162,11 @@ def choose_chore(cho_ls):
         return is_valid
     
     except ValueError:
+        print("Invalid command, please try again")
         is_valid  = choose_chore(cho_ls)
         return is_valid
     except:
+        print("Invalid command, please try again")
         is_valid  = choose_chore(cho_ls)
         return is_valid
     
