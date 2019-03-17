@@ -140,9 +140,14 @@ def choose_participant(par_ls):
     is_valid = None
     try:
         log_participant = int(input("\nEnter participant number: "))
-        is_valid = par_ls[(log_participant-1)]
-        print("\nYou are logging {}'s chores".format(par_ls[(log_participant-1)]))
-        return is_valid
+        if log_participant == 0:
+            print("Invalid command, please try again")
+            is_valid = choose_participant(par_ls)
+            return is_valid
+        else:
+            is_valid = par_ls[(log_participant-1)]
+            print("\nYou are logging {}'s chores".format(par_ls[(log_participant-1)]))
+            return is_valid
     except:
         print("Invalid command, please try again")
         is_valid  = choose_participant(par_ls)
@@ -158,9 +163,14 @@ def choose_chore(cho_ls):
     is_valid = None
     try:
         log_chore = int(input("\nEnter chore number: "))
-        is_valid = cho_ls[(log_chore-1)]
-        return is_valid
-    
+        if log_chore == 0:
+            print("Invalid command, please try again")
+            is_valid = choose_chore(cho_ls)
+            return is_valid
+        else:
+            is_valid = cho_ls[(log_chore-1)]
+            return is_valid
+     
     except ValueError:
         print("Invalid command, please try again")
         is_valid  = choose_chore(cho_ls)
