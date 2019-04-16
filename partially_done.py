@@ -433,7 +433,11 @@ def get_option():
    
     return option.upper()
 
+##  Text File for Household Information
+# 
+#   Reads text file for Household Information to ensure validity
 def read_households_information(information_file,all_households):
+   
     with information_file as file:
         for line in file:
             one_household_information = list(line.rstrip().split(','))
@@ -441,19 +445,25 @@ def read_households_information(information_file,all_households):
             participants_size = int(one_household_information[1])
             participants_set = set()
             chores_set = set()
+            
             for i in range(2, participants_size + 2):
                 participant_name = one_household_information[i]
                 participants_set.add(participant_name)
             chores_size = int(one_household_information[participants_size + 2])
             for j in range(participants_size + 3, len(one_household_information), 2):
-                chores_name = Chore(one_household_information[i], one_household_information[i + 1])
+                chores_name = Chore(one_household_information[j], one_household_information[j + 1])
                 chores_set.add(chores_name)
+                
             household_obj = Household(one_household_name, participants_set, chores_set)
             all_households.append(household_obj)
-    
-    return
 
+
+    return
+  
+#  Saves/Writes data into the Text File for Household Information
+# 
 def write_households_information(information_file,all_households):
+  
     for one_household in all_households:
         line = str(one_household.household_name) + "," + str(len(one_household.participants.participants)) + ","
         for participant in one_household.participants.participants:
@@ -467,19 +477,76 @@ def write_households_information(information_file,all_households):
     
     return
     
+##  Text File for Chore Log Information
+# 
+#   Reads text file for Chore Log to ensure validity
+def read_chore_log_information(information_file,all_households):
+  
+    with information_file as file:
+        index = 0
+        for line in file:
+            if(index>= len(all_households)):
+              return
+            line_info = line.split(",")
+            if(line_info[0] != all_households[index].household_name):
+                index +=1
+            chore_set = set()
+            
+            for i in range(2, len(line_info)):
+                if(i%2 != 0):
+                    for chore_obj in all_households[index].chores.chores:
+                        if(chore_obj.chore_name == line_info[i-1]):
+                            all_households[index].update_log(line_info[1], chore_obj, int(line_info[i]))
+                        break
+                    
+    return
+  
+#  Saves/Writes data into the Text File for Chore Log
+# 
+def write_chore_log_information(outfile_all_chore_log_information, all_households):
+    log_info = []
+    line_info = ""
+    if(len(all_households)<=0):
+      return
+    
+    for each_one in all_households:            
+        for each_participant in each_one.participants.participants:
+            line_info+= each_one.household_name+","
+            line_info+= each_participant
+            count = 0
+            for chore in each_one.chore_log[each_participant]:
+                for each_chore in each_one.chores.chores:
+                    line_info += ","+each_chore.chore_name
+                    line_info += ","+str(each_one.chore_log[each_participant][chore])
+                count += 1 
+            line_info += "\n" 
+    outfile_all_chore_log_information.write(line_info)
+    
+    return
 
 ## The menu is displayed until the user quits
 # 
 def main():
     try:
         infile_all_households_information = open('All_households_information.txt','r')
+        infile_all_chore_log_information = open('All_chore_log_information.txt','r')
     except IOError:
         infile_all_households_information = open('All_households_information.txt','w')
         infile_all_households_information.close()
         infile_all_households_information = open('All_households_information.txt','r')
+        
+        infile_all_chore_log_information = open('All_households_information.txt','w')
+        infile_all_chore_log_information.close()
+        infile_all_chore_log_information = open('All_households_information.txt','r')
 
+## The list that contains all information
+# 
     all_households = []
+  
+## Reads both household information and chore log text files when the program starts
+#   
     read_households_information(infile_all_households_information,all_households)
+    read_chore_log_information(infile_all_chore_log_information,all_households)
 
     option = '*'
     
@@ -495,13 +562,21 @@ def main():
             log_chores(all_households)
         elif option == 'S':
             show_leaderboard(all_households)
-            # print("\n\tNot implemented yet.\n")
-
+          
+## Saves household and chore log data into the text files
+#
     outfile_all_households_information = open("All_households_information.txt", "w")
+    outfile_all_chore_log_information = open("All_chore_log_information.txt", "w")
     write_households_information(outfile_all_households_information, all_households)
+    write_chore_log_information(outfile_all_chore_log_information, all_households)
     
+## Closing both household information and chore log text files ensures data is properly saved
+#  
     infile_all_households_information.close()
+    infile_all_chore_log_information.close()
     outfile_all_households_information.close()
+    outfile_all_chore_log_information.close()
+
 
     print("\n\nBye, bye.")
 
