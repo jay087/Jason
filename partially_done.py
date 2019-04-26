@@ -490,14 +490,13 @@ def read_chore_log_information(information_file,all_households):
             line_info = line.split(",")
             if(line_info[0] != all_households[index].household_name):
                 index +=1
-            chore_set = set()
-            
-            for i in range(2, len(line_info)):
-                if(i%2 != 0):
-                    for chore_obj in all_households[index].chores.chores:
-                        if(chore_obj.chore_name == line_info[i-1]):
-                            all_households[index].update_log(line_info[1], chore_obj, int(line_info[i]))
-                        break
+            for i in range(2, len(line_info),2):
+                for house in all_households:
+                    if(house.household_name == line_info[0]):
+                        for chore_obj in house.chores.chores:
+                            if(chore_obj.chore_name == line_info[i]):
+                                house.update_log(line_info[1], chore_obj, int(line_info[i+1]))
+                                break
                     
     return
   
@@ -513,12 +512,12 @@ def write_chore_log_information(outfile_all_chore_log_information, all_household
         for each_participant in each_one.participants.participants:
             line_info+= each_one.household_name+","
             line_info+= each_participant
-            count = 0
-            for chore in each_one.chore_log[each_participant]:
-                for each_chore in each_one.chores.chores:
-                    line_info += ","+each_chore.chore_name
-                    line_info += ","+str(each_one.chore_log[each_participant][chore])
-                count += 1 
+            for obj in each_one.chore_log:
+                if(obj == each_participant):
+                    for chore in each_one.chore_log[obj]:
+                        if(each_one.chore_log[each_participant][chore] >0):
+                            line_info += ","+chore.chore_name
+                            line_info += ","+str(each_one.chore_log[each_participant][chore])
             line_info += "\n" 
     outfile_all_chore_log_information.write(line_info)
     
